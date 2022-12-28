@@ -8,7 +8,7 @@ import { UserService } from './user.service';
 describe('UsersService', () => {
   let service: UserService;
   let repository: Repository<User>;
-  // let ormconfigTet: ormconfig;
+  const USER_REPOSITORY_TOKEN = getRepositoryToken(User);
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -16,14 +16,14 @@ describe('UsersService', () => {
       providers: [
         UserService,
         {
-          provide: getRepositoryToken(User),
+          provide: USER_REPOSITORY_TOKEN,
           useValue: repository,
         },
       ],
     }).compile();
 
     service = module.get<UserService>(UserService);
-    repository = module.get<Repository<User>>(getRepositoryToken(User));
+    repository = module.get<Repository<User>>(USER_REPOSITORY_TOKEN);
   });
 
   it('should be defined', () => {
