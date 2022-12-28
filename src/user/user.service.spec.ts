@@ -105,15 +105,15 @@ describe('UsersService', () => {
     });
   });
 
-  // describe('delete', () => {
-  //   it('should delete a new user', async () => {
-  //     const result = await service.findAll();
-  //     console.log('findAll result = ', result); // Работает
-  //     expect(result.length).toEqual(1);
-  //     // Delete testing value from bd
-  //     const id = result[0].id;
-  //     await service.delete(id);
-  //     expect(result.length).toEqual(1);
-  //   });
-  // });
+  describe('delete', () => {
+    it('should delete a new user', async () => {
+      const result = await service.findAll();
+      console.log('findAll result = ', result); // Работает
+      expect(result.length).toEqual(1);
+      // Delete testing value from bd
+      const id = result[0].id;
+      await service.delete(id);
+      expect(result.length).toEqual(1);
+    });
+  });
 });
