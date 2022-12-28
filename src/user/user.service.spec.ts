@@ -51,37 +51,6 @@ describe('UsersService', () => {
     });
   });
 
-  // // findById без использование реальной БД
-  // describe('findById', () => {
-  //   it('should find an existing user by id', async () => {
-  //     const user = new User();
-  //     //   {
-  //     //   id: 1,
-  //     //   username: 'test-user',
-  //     //   password: 'test-password',
-  //     // });
-  //     user.id = 1;
-  //     user.username = 'test-user-findById';
-  //     user.password = 'test-password-findById';
-  //     jest.spyOn(repository, 'findOne').mockResolvedValue(user);
-  //     const result = await service.findById(1);
-  //     console.log('findById result = ', result);
-  //     expect(result).toEqual(user);
-  //     expect(repository.findOne).toHaveBeenCalledWith({
-  //       where: { id: 1 },
-  //     });
-  //   });
-
-  //   it('should return null if user is not found', async () => {
-  //     jest.spyOn(repository, 'findOne').mockResolvedValue(null);
-  //     const result = await service.findById(1);
-  //     expect(result).toBeNull();
-  //     expect(repository.findOne).toHaveBeenCalledWith({
-  //       where: { id: 1 },
-  //     });
-  //   });
-  // });
-
   describe('update', () => {
     it('should update a test-user', async () => {
       const result = await service.findAll();
@@ -108,12 +77,43 @@ describe('UsersService', () => {
   describe('delete', () => {
     it('should delete a new user', async () => {
       const result = await service.findAll();
-      console.log('findAll result = ', result); // Работает
+      console.log('delete findAll result = ', result); // Работает
       expect(result.length).toEqual(1);
       // Delete testing value from bd
       const id = result[0].id;
       await service.delete(id);
       expect(result.length).toEqual(1);
+    });
+  });
+
+  // findById без использование реальной БД
+  describe('findById', () => {
+    it('should find an existing user by id', async () => {
+      const user = new User();
+      //   {
+      //   id: 1,
+      //   username: 'test-user',
+      //   password: 'test-password',
+      // });
+      user.id = 1;
+      user.username = 'test-user-findById';
+      user.password = 'test-password-findById';
+      jest.spyOn(repository, 'findOne').mockResolvedValue(user);
+      const result = await service.findById(1);
+      console.log('findById result not real bd = ', result);
+      expect(result).toEqual(user);
+      expect(repository.findOne).toHaveBeenCalledWith({
+        where: { id: 1 },
+      });
+    });
+
+    it('should return null if user is not found', async () => {
+      jest.spyOn(repository, 'findOne').mockResolvedValue(null);
+      const result = await service.findById(1);
+      expect(result).toBeNull();
+      expect(repository.findOne).toHaveBeenCalledWith({
+        where: { id: 1 },
+      });
     });
   });
 });
