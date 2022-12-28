@@ -64,6 +64,7 @@ describe('UsersService', () => {
       user.username = 'test-user';
       user.password = 'test-password';
       const result = await service.create(user);
+      // console.log('result = ', result); // Работает
       expect(result).toEqual({
         id: expect.any(Number),
         username: 'test-user',
@@ -71,6 +72,8 @@ describe('UsersService', () => {
       });
       const count = await repository.count();
       expect(count).toEqual(1);
+      // Delete testing value from bd
+      await service.delete(result.id);
     });
   });
 });
