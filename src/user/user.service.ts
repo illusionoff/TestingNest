@@ -26,7 +26,10 @@ export class UserService {
     await this.userRepository.update(id, user);
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: number): Promise<any> {
+    // Если нет такого id, то возвращается  {"raw": [],"affected": 0}
+    // Если есть, возвращается {"raw": [],"affected": 1}
+    // return await this.userRepository.delete(id);
     await this.userRepository.delete(id);
   }
 }

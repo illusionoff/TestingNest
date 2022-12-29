@@ -153,14 +153,15 @@ describe('UsersService', () => {
 
   describe('delete', () => {
     it('should delete a user', async () => {
-      jest.spyOn(repository, 'delete').mockResolvedValue({ affected: 1, raw: 'raw' });
+      jest.spyOn(repository, 'delete').mockResolvedValue({ affected: 1, raw: 'raw' }); // Здесь raw походу без разницы чему равно
       const result = await service.delete(1);
+      console.log('delete result = ', result);
       expect(result).toBeUndefined();
       expect(repository.delete).toHaveBeenCalledWith(1);
     });
 
     it('should throw an error if the user does not exist', async () => {
-      jest.spyOn(repository, 'delete').mockResolvedValue({ affected: 0, raw: 'raw' });
+      jest.spyOn(repository, 'delete').mockResolvedValue({ affected: 0, raw: 'raw' }); // Здесь raw походу без разницы чему равно
       try {
         await service.delete(1);
         fail();
