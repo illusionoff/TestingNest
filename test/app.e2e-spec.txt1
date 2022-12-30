@@ -1,0 +1,50 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import { UserController } from '../src/user/user.controller';
+import { UserService } from '../src/user/user.service';
+import { User } from '../src/entities/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserRepository } from '../src/repository/user.repository';
+
+describe('UserController', () => {
+  let app: INestApplication;
+  let userController: UserController;
+  let userService: UserService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([User, UserRepository])],
+      controllers: [UserController],
+      providers: [UserService],
+    }).compile();
+
+    app = module.createNestApplication();
+    await app.init();
+
+    userController = module.get<UserController>(UserController);
+    userService = module.get<UserService>(UserService);
+  });
+
+  afterEach(async () => {
+    await app.close();
+  });
+
+  describe('findAll', () => {
+    it('should return an array of users', async () => {
+      // const result = [
+      //   { id: 1, username: 'user1', password: 'test-password-2' },
+      //   { id: 2, username: 'user2', password: 'test-password-2' },
+      // ];
+      const user = new User();
+      user.id = 1;
+      user.username = 'test-user';
+      user.password = 'test-password';
+      // const result = [{ id: 1, name: 'John', age: 30 }];
+      const result = [user];
+      // Promise.resolve(result)
+      jest.spyOn(userService, 'findAll').mockImplementation(() => Promise.resolve(result));
+
+      expect(await userController.findAll()).toBe(result);
+    });
+  });
+});
