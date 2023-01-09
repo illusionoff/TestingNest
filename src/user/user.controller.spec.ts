@@ -42,7 +42,7 @@ describe('UserController', () => {
       // const result = [{ id: 1, name: 'John', age: 30 }];
       const result = [user];
       jest.spyOn(userService, 'findAll').mockImplementation(() => Promise.resolve(result));
-      expect(await controller.findAll()).toBe(result);
+      expect(await controller.findAll()).toEqual(result);
       // expect(await controller.findAll()).toEqual(result);
     });
   });
@@ -54,7 +54,7 @@ describe('UserController', () => {
       result.username = 'test-user';
       result.password = 'test-password';
       jest.spyOn(userService, 'findById').mockImplementation(() => Promise.resolve(result));
-      expect(await controller.findById(1)).toBe(result);
+      expect(await controller.findById(1)).toEqual(result);
     });
   });
 
@@ -65,7 +65,7 @@ describe('UserController', () => {
       user.username = 'test-user';
       user.password = 'test-password';
       jest.spyOn(userService, 'create').mockImplementation(() => Promise.resolve(user));
-      expect(await controller.create(user)).toBe(user);
+      expect(await controller.create(user)).toEqual(user);
     });
   });
 
