@@ -22,14 +22,21 @@ export class UserService {
     return await this.userRepository.save(user);
   }
 
-  async update(id: number, user: User): Promise<void> {
+  async update(id: number, user: User): Promise<User> {
     await this.userRepository.update(id, user);
+    return await this.userRepository.findOne({ where: { id } });
   }
 
   async delete(id: number): Promise<any> {
     // Если нет такого id, то возвращается  {"raw": [],"affected": 0}
     // Если есть, возвращается {"raw": [],"affected": 1}
     // return await this.userRepository.delete(id);
-    await this.userRepository.delete(id);
+    const result = await this.userRepository.delete(id);
+    console.log('user.service.ts delete = ', result);
+    return result;
+  }
+
+  async deleteAll(): Promise<any> {
+    await this.userRepository.query('DELETE FROM users');
   }
 }

@@ -22,12 +22,17 @@ export class UserController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, @Body() user: User): Promise<void> {
+  async update(@Param('id') id: number, @Body() user: User): Promise<User> {
     return this.userService.update(id, user);
   }
 
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {
     return this.userService.delete(id);
+  }
+
+  @Post('deleteAll')
+  async deleteAll(): Promise<void> {
+    return this.userService.deleteAll();
   }
 }
