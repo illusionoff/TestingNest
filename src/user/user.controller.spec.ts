@@ -42,8 +42,8 @@ describe('UserController', () => {
       // const result = [{ id: 1, name: 'John', age: 30 }];
       const result = [user];
       jest.spyOn(userService, 'findAll').mockImplementation(() => Promise.resolve(result));
-      expect(await controller.findAll()).toEqual(result);
-      // expect(await controller.findAll()).toEqual(result);
+      expect(await controller.findAll()).toBe(result);
+      // expect(await controller.findAll()).toBe(result);
     });
   });
 
