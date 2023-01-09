@@ -13,7 +13,14 @@ import { UserRepository } from '../src/repository/user.repository';
 // С Использованием реальных данных в бд и подключением реальных данных
 describe('UserController', () => {
   let app: INestApplication;
-
+  // В бд предварительно должен быть такой юзер:
+  const user = { id: 89, username: 'test-user', password: 'test-password' };
+  // 
+  const userCreateRequest = new User();
+  userCreateRequest.id = 113;
+  userCreateRequest.username = 'test-user-create';
+  userCreateRequest.password = 'test-password-create';
+  // const userCreateRequest = { id: 105, username: 'test-user-create', password: 'test-password-create' };
   // Можно так вариант 1
   // const userService = {
   //   findAll() {
@@ -22,7 +29,18 @@ describe('UserController', () => {
   // };
 
   // Можно так вариант 2
-  const userService = { findAll: () => [{ id: 89, username: 'test-user', password: 'test-password' }] };
+  const userService = {
+    findAll: () => [user],
+    //  findById: (id) => { id: 89, username: 'test-user', password: 'test-password' };
+    findById(id: number) {
+      return user;
+    },
+    create(user: User) {
+      return user;
+    },
+    update(id: number, user: User) {},
+    delete(id: number) {},
+  };
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -37,8 +55,8 @@ describe('UserController', () => {
     await app.init();
   });
 
-  it(`/GET users`, () => {
-    const usersRequest = request(app.getHttpServer()).get('/users').expect(200).expect(userService.findAll());
+  it(`/GET users`, async () => {
+    const usersRequest = await request(app.getHttpServer()).get('/users').expect(200).expect(userService.findAll());
     // следующий вариант из офф источника не работает
     // https://docs.nestjs.com/fundamentals/testing
     // const usersRequest = request(app.getHttpServer()).get('/users').expect(200).expect({
@@ -46,7 +64,36 @@ describe('UserController', () => {
     // });
 
     console.log('userService.findAll()= ', userService.findAll());
-    return usersRequest;
+    return await usersRequest;
+  });
+
+  it('/GET user by id', async () => {
+    if (userService) {
+      return await request(app.getHttpServer()).get('/users/89').expect(200).expect(userService.findById(89));
+    }
+  });
+
+  it('/POST user', async () => {
+    // const userUpdate = { password: 'test-password-update' };
+    // const userCreate = new User();
+    // // user.id = 89; 
+    // user.username = 'test-user-create';
+    // user.password = 'test-password-create';
+    const userCreate = { id: 1, username: 'test-user-create', password: 'test-password-create' };
+
+    // const userCreateRequest = new User();
+    // user.id = 104;
+    // user.username = 'test-user-create';
+    // user.password = 'test-password-create';
+
+    if (userService) {
+      // try {
+      return await request(app.getHttpServer()).post('/users').send(userCreate).expect(201).expect(userService.create(userCreateRequest));
+      // } catch (e) {
+      //   console.log('/POST user error= ', e);
+      //   return e;
+      // }
+    }
   });
 
   afterAll(async () => {

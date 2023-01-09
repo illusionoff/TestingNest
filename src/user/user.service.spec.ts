@@ -6,6 +6,7 @@ import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { UserService } from './user.service';
 
+// Unit testing с помощью mock функций т.е. тестирование с подменой реальных данных из БД
 describe('UsersService', () => {
   let service: UserService;
   let repository: Repository<User>;

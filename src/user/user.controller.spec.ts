@@ -20,6 +20,11 @@ describe('UserController', () => {
     userService = module.get<UserService>(UserService);
   });
 
+  // Очищаем ресурсы после каждого теста
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
@@ -38,6 +43,7 @@ describe('UserController', () => {
       const result = [user];
       jest.spyOn(userService, 'findAll').mockImplementation(() => Promise.resolve(result));
       expect(await controller.findAll()).toBe(result);
+      // expect(await controller.findAll()).toEqual(result);
     });
   });
 
