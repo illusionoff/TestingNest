@@ -121,7 +121,7 @@ describe('UserController E2E', () => {
       .delete(`/users/${createdUser.id}`)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual({ "raw": [], "affected": 1 });
+        expect(res.body).toEqual({ raw: [], affected: 1 });
       });
     console.log('/DELETE user result.body= ', result.body);
     return result;

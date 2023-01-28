@@ -75,7 +75,7 @@ describe('UserController', () => {
       user.id = 1;
       user.username = 'test-user';
       user.password = 'test-password';
-      jest.spyOn(userService, 'update').mockImplementation(() => Promise.resolve());
+      jest.spyOn(userService, 'update').mockImplementation(() => Promise.resolve(user));
       await controller.update(1, user);
       expect(userService.update).toHaveBeenCalledWith(1, user);
     });

@@ -32,6 +32,8 @@ export class UserService {
     // Если есть, возвращается {"raw": [],"affected": 1}
     // return await this.userRepository.delete(id);
     const result = await this.userRepository.delete(id);
+    // const result = await this.findById(id);
+    // await this.userRepository.delete(id);
     console.log('user.service.ts delete = ', result);
     return result;
   }

@@ -108,7 +108,7 @@ describe('UsersService', () => {
       //   username: 'test-user',
       //   password: 'test-password',
       // };
-      jest.spyOn(repository, 'update').mockResolvedValue({ affected: 1, raw: 'raw', generatedMaps: [] });
+      jest.spyOn(repository, 'update').mockResolvedValue({ affected: 1, raw: [], generatedMaps: [] });
       const updatedUser = new User();
       user.id = 1;
       user.username = 'test-user';
@@ -122,7 +122,7 @@ describe('UsersService', () => {
     });
 
     it('should throw an error if user is not found (fail is not defined)', async () => {
-      jest.spyOn(repository, 'update').mockResolvedValue({ affected: 0, raw: 'raw', generatedMaps: [] });
+      jest.spyOn(repository, 'update').mockResolvedValue({ affected: 0, raw: [], generatedMaps: [] });
       const updatedUser = new User();
       updatedUser.id = 1;
       updatedUser.username = 'test-user';
@@ -154,15 +154,16 @@ describe('UsersService', () => {
 
   describe('delete', () => {
     it('should delete a user', async () => {
-      jest.spyOn(repository, 'delete').mockResolvedValue({ affected: 1, raw: 'raw' }); // Здесь raw походу без разницы чему равно
+      jest.spyOn(repository, 'delete').mockResolvedValue({ affected: 1, raw: [] }); // Здесь raw походу без разницы чему равно
       const result = await service.delete(1);
-      console.log('delete result = ', result);
-      expect(result).toBeUndefined();
+      // console.log('delete result = ', result);
+      // expect(result).toBeUndefined();
+      expect(result).toEqual({ affected: 1, raw: [] });
       expect(repository.delete).toHaveBeenCalledWith(1);
     });
 
     it('should throw an error if the user does not exist', async () => {
-      jest.spyOn(repository, 'delete').mockResolvedValue({ affected: 0, raw: 'raw' }); // Здесь raw походу без разницы чему равно
+      jest.spyOn(repository, 'delete').mockResolvedValue({ affected: 0, raw: [] }); // Здесь raw походу без разницы чему равно
       try {
         await service.delete(1);
         fail();
